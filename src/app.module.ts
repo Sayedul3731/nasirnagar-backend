@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigModuleOptions } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppController } from './app.controller'; // Import your controller
+import { AppService } from './app.service'; // Import your service (if exists)
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-    } as ConfigModuleOptions), // 👈 Explicitly cast to avoid type issues
+    } as ConfigModuleOptions),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -18,5 +20,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: true,
     }),
   ],
+  controllers: [AppController], // Add your AppController
+  providers: [AppService], // Add AppService (if you have one)
 })
 export class AppModule {}
